@@ -237,6 +237,8 @@ api.get('/daily/leaderboard', async (c) => {
   const leaderboardDetailsKey = `leaderboard:details:${todayStr}`;
 
   try {
+    const username = (await reddit.getCurrentUsername()) || 'anonymous';
+
     // Get top 10 users by score (descending)
     // start: 0, stop: 9, options: { by: 'rank', reverse: true }
     const topMembers = await redis.zRange(leaderboardKey, 0, 9, { by: 'rank', reverse: true });
@@ -245,8 +247,8 @@ api.get('/daily/leaderboard', async (c) => {
     
     // Fetch details for each top member
     for (const memberObj of topMembers) {
-      const username = memberObj.member;
-      const detailsRaw = await redis.hGet(leaderboardDetailsKey, username);
+      const memberName = memberObj.member;
+      const detailsRaw = await redis.hGet(leaderboardDetailsKey, memberName);
       if (detailsRaw) {
         entries.push(JSON.parse(detailsRaw));
       } else {
@@ -256,7 +258,7 @@ api.get('/daily/leaderboard', async (c) => {
         const scoreVal = Math.floor(memberObj.score / 1000000);
         const timeVal = 86400 - (memberObj.score % 1000000);
         entries.push({
-          username,
+          username: memberName,
           score: scoreVal,
           time: timeVal,
           hints: 0,
@@ -266,9 +268,22 @@ api.get('/daily/leaderboard', async (c) => {
       }
     }
 
+    // Retrieve user's own global rank
+    const myRankAsc = await redis.zRank(leaderboardKey, username);
+    const totalMembers = await redis.zCard(leaderboardKey);
+    let myRank: number | null = null;
+    if (myRankAsc !== undefined && myRankAsc !== null) {
+      myRank = totalMembers - myRankAsc;
+    }
+
+    const myDetailsRaw = await redis.hGet(leaderboardDetailsKey, username);
+    const myDetails = myDetailsRaw ? JSON.parse(myDetailsRaw) : null;
+
     return c.json({
       status: 'success',
       leaderboard: entries,
+      myRank,
+      myDetails,
     });
   } catch (error) {
     console.error('API Leaderboard Error:', error);
