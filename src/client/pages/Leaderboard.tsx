@@ -88,105 +88,101 @@ export const Leaderboard = ({ theme, currentUsername, onBack }: LeaderboardProps
             {/* Global Top 3 Podium */}
             <div className="grid grid-cols-3 gap-2.5 items-end pb-4 border-b border-slate-200/20">
               {/* 2nd Place (Left) */}
-              {entries[1] ? (
-                <div className={`flex flex-col items-center p-3 rounded-xl border text-center min-h-[110px] justify-between ${theme.isDark ? 'border-slate-800 bg-slate-950/20' : 'border-slate-250 bg-slate-50/20 shadow-sm'}`}>
-                  <span className="text-2xl leading-none">🥈</span>
-                  <div className="flex flex-col items-center mt-1 min-w-0 w-full">
-                    <span className="text-[0.65em] font-mono opacity-70">RANK #2</span>
-                    <span className="text-xs font-extrabold truncate w-full mt-0.5">u/{entries[1].username}</span>
+              {entries[1] ? (() => {
+                const is2ndMe = entries[1].username.toLowerCase() === currentUsername.toLowerCase();
+                return (
+                  <div className={`flex flex-col items-center p-3 rounded-xl border text-center min-h-[110px] justify-between transition-all ${is2ndMe ? (theme.isDark ? 'border-cyan-400 bg-cyan-500/10 shadow-[0_0_15px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500' : 'border-indigo-400 bg-indigo-50/70 ring-1 ring-indigo-500 shadow-sm') : (theme.isDark ? 'border-slate-800 bg-slate-950/20' : 'border-slate-250 bg-slate-50/20 shadow-sm')}`}>
+                    <span className="text-2xl leading-none">🥈</span>
+                    <div className="flex flex-col items-center mt-1 min-w-0 w-full">
+                      <span className={`text-[0.65em] font-mono font-extrabold ${is2ndMe ? 'text-cyan-400' : 'opacity-70'}`}>
+                        RANK #2 {is2ndMe && '(YOU)'}
+                      </span>
+                      <span className={`text-xs font-extrabold truncate w-full mt-0.5 ${is2ndMe ? (theme.isDark ? 'text-cyan-300' : 'text-indigo-650') : ''}`}>u/{entries[1].username}</span>
+                    </div>
+                    <div className="flex flex-col items-center mt-1">
+                      <span className="text-[0.7em] font-black">{entries[1].score}</span>
+                      <span className="text-[0.6em] font-mono opacity-65">{formatTime(entries[1].time)}</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center mt-1">
-                    <span className="text-[0.7em] font-black">{entries[1].score}</span>
-                    <span className="text-[0.6em] font-mono opacity-65">{formatTime(entries[1].time)}</span>
-                  </div>
-                </div>
-              ) : (
+                );
+              })() : (
                 <div className={`flex flex-col items-center justify-center p-3 rounded-xl border border-dashed opacity-30 text-center min-h-[110px] ${theme.isDark ? 'border-slate-800' : 'border-slate-200'}`}>
                   <span className="text-xs font-mono text-slate-400">Empty</span>
                 </div>
               )}
 
               {/* 1st Place (Center - taller/highlighted) */}
-              {entries[0] ? (
-                <div className={`flex flex-col items-center p-4 rounded-xl border text-center min-h-[135px] justify-between scale-[1.03] shadow-md ${theme.isDark ? 'border-yellow-500/30 bg-yellow-500/5' : 'border-amber-250 bg-amber-50/50'}`}>
-                  <span className="text-3xl leading-none animate-bounce">🥇</span>
-                  <div className="flex flex-col items-center mt-1 min-w-0 w-full">
-                    <span className="text-[0.65em] font-mono text-amber-600 font-bold">CHAMPION</span>
-                    <span className="text-xs font-black truncate w-full mt-0.5">u/{entries[0].username}</span>
+              {entries[0] ? (() => {
+                const is1stMe = entries[0].username.toLowerCase() === currentUsername.toLowerCase();
+                return (
+                  <div className={`flex flex-col items-center p-4 rounded-xl border text-center min-h-[135px] justify-between scale-[1.03] shadow-md transition-all ${is1stMe ? (theme.isDark ? 'border-cyan-400 bg-cyan-500/10 shadow-[0_0_15px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500' : 'border-indigo-400 bg-indigo-50/70 ring-1 ring-indigo-500 shadow-md') : (theme.isDark ? 'border-yellow-500/30 bg-yellow-500/5' : 'border-amber-250 bg-amber-50/50')}`}>
+                    <span className="text-3xl leading-none animate-bounce">🥇</span>
+                    <div className="flex flex-col items-center mt-1 min-w-0 w-full">
+                      <span className={`text-[0.65em] font-mono font-black ${is1stMe ? 'text-cyan-400' : 'text-amber-600'}`}>
+                        CHAMPION {is1stMe && '(YOU)'}
+                      </span>
+                      <span className={`text-xs font-black truncate w-full mt-0.5 ${is1stMe ? (theme.isDark ? 'text-cyan-300' : 'text-indigo-650') : ''}`}>u/{entries[0].username}</span>
+                    </div>
+                    <div className="flex flex-col items-center mt-1">
+                      <span className={`text-xs font-black ${is1stMe ? (theme.isDark ? 'text-cyan-300' : 'text-indigo-650') : 'text-amber-700'}`}>{entries[0].score}</span>
+                      <span className="text-[0.6em] font-mono opacity-75">{formatTime(entries[0].time)}</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center mt-1">
-                    <span className="text-xs font-black text-amber-700">{entries[0].score}</span>
-                    <span className="text-[0.6em] font-mono opacity-75">{formatTime(entries[0].time)}</span>
-                  </div>
-                </div>
-              ) : (
+                );
+              })() : (
                 <div className={`flex flex-col items-center justify-center p-3 rounded-xl border border-dashed opacity-30 text-center min-h-[135px] ${theme.isDark ? 'border-slate-800' : 'border-slate-200'}`}>
                   <span className="text-xs font-mono text-slate-400">Empty</span>
                 </div>
               )}
 
               {/* 3rd Place (Right) */}
-              {entries[2] ? (
-                <div className={`flex flex-col items-center p-3 rounded-xl border text-center min-h-[110px] justify-between ${theme.isDark ? 'border-slate-800 bg-slate-950/20' : 'border-slate-250 bg-slate-50/20 shadow-sm'}`}>
-                  <span className="text-2xl leading-none">🥉</span>
-                  <div className="flex flex-col items-center mt-1 min-w-0 w-full">
-                    <span className="text-[0.65em] font-mono opacity-70">RANK #3</span>
-                    <span className="text-xs font-extrabold truncate w-full mt-0.5">u/{entries[2].username}</span>
+              {entries[2] ? (() => {
+                const is3rdMe = entries[2].username.toLowerCase() === currentUsername.toLowerCase();
+                return (
+                  <div className={`flex flex-col items-center p-3 rounded-xl border text-center min-h-[110px] justify-between transition-all ${is3rdMe ? (theme.isDark ? 'border-cyan-400 bg-cyan-500/10 shadow-[0_0_15px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500' : 'border-indigo-400 bg-indigo-50/70 ring-1 ring-indigo-500 shadow-sm') : (theme.isDark ? 'border-slate-800 bg-slate-950/20' : 'border-slate-250 bg-slate-50/20 shadow-sm')}`}>
+                    <span className="text-2xl leading-none">🥉</span>
+                    <div className="flex flex-col items-center mt-1 min-w-0 w-full">
+                      <span className={`text-[0.65em] font-mono font-extrabold ${is3rdMe ? 'text-cyan-400' : 'opacity-70'}`}>
+                        RANK #3 {is3rdMe && '(YOU)'}
+                      </span>
+                      <span className={`text-xs font-extrabold truncate w-full mt-0.5 ${is3rdMe ? (theme.isDark ? 'text-cyan-300' : 'text-indigo-650') : ''}`}>u/{entries[2].username}</span>
+                    </div>
+                    <div className="flex flex-col items-center mt-1">
+                      <span className="text-[0.7em] font-black">{entries[2].score}</span>
+                      <span className="text-[0.6em] font-mono opacity-65">{formatTime(entries[2].time)}</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center mt-1">
-                    <span className="text-[0.7em] font-black">{entries[2].score}</span>
-                    <span className="text-[0.6em] font-mono opacity-65">{formatTime(entries[2].time)}</span>
-                  </div>
-                </div>
-              ) : (
+                );
+              })() : (
                 <div className={`flex flex-col items-center justify-center p-3 rounded-xl border border-dashed opacity-30 text-center min-h-[110px] ${theme.isDark ? 'border-slate-800' : 'border-slate-200'}`}>
                   <span className="text-xs font-mono text-slate-400">Empty</span>
                 </div>
               )}
             </div>
 
-            {/* Remaining Solvers (Rank 4+) */}
-            {entries.length > 3 && (
-              <div className="flex flex-col w-full">
-                {/* Headers */}
+            {/* If user is Rank 4 or worse, render exactly their row below the podium */}
+            {myRank !== null && myRank >= 4 && myDetails && (
+              <div className="flex flex-col w-full mt-2">
                 <div className={`flex text-[0.65em] opacity-50 font-mono pb-1.5 border-b text-left px-2 ${theme.isDark ? 'border-slate-800' : 'border-slate-200'}`}>
                   <span className="w-10 text-center">Rank</span>
                   <span className="flex-1 min-w-0">Player</span>
                   <span className="w-16 text-right">Score</span>
                   <span className="w-20 text-right">Time</span>
                 </div>
-
-                {/* List entries */}
-                <div className="flex flex-col gap-1.5 mt-2 max-h-[190px] overflow-y-auto pr-1">
-                  {entries.slice(3).map((entry, idx) => {
-                    const actualIdx = idx + 3;
-                    const isMe = entry.username.toLowerCase() === currentUsername.toLowerCase();
-                    return (
-                      <div
-                        key={actualIdx}
-                        className={`
-                          flex items-center text-xs py-2 px-2 rounded-xl border text-left transition-all
-                          ${isMe 
-                            ? (theme.isDark ? 'border-cyan-500/40 bg-cyan-500/10' : 'border-indigo-300 bg-indigo-50/50') 
-                            : (theme.isDark ? 'border-slate-850 bg-slate-950/20' : 'border-slate-150 bg-white/50')}
-                        `}
-                      >
-                        <span className="w-10 text-center font-mono font-bold opacity-75">
-                          #{actualIdx + 1}
-                        </span>
-                        <span className={`flex-1 min-w-0 font-bold truncate ${isMe ? (theme.isDark ? 'text-cyan-300' : 'text-indigo-650') : ''}`}>
-                          u/{entry.username}
-                          {isMe && <span className={`text-[0.65em] font-extrabold ml-1.5 px-1 py-0.5 rounded ${theme.isDark ? 'bg-cyan-500 text-slate-950' : 'bg-indigo-600 text-white'}`}>YOU</span>}
-                        </span>
-                        <span className="w-16 text-right font-extrabold tracking-tight">
-                          {entry.score}
-                        </span>
-                        <span className="w-20 text-right font-mono opacity-80 text-[0.8em]">
-                          {formatTime(entry.time)}
-                        </span>
-                      </div>
-                    );
-                  })}
+                
+                <div className={`flex items-center text-xs py-2.5 px-3 rounded-xl border text-left mt-2 transition-all ${theme.isDark ? 'border-cyan-500/40 bg-cyan-500/10 shadow-md shadow-cyan-500/5 text-cyan-300' : 'border-indigo-300 bg-indigo-50/70 text-indigo-700 font-bold'}`}>
+                  <span className="w-10 text-center font-mono font-black">
+                    #{myRank}
+                  </span>
+                  <span className="flex-1 min-w-0 font-bold truncate">
+                    u/{currentUsername} <span className={`text-[0.65em] font-extrabold ml-1.5 px-1 py-0.5 rounded ${theme.isDark ? 'bg-cyan-500 text-slate-950' : 'bg-indigo-650 text-white'}`}>YOU</span>
+                  </span>
+                  <span className="w-16 text-right font-extrabold tracking-tight">
+                    {myDetails.score}
+                  </span>
+                  <span className="w-20 text-right font-mono opacity-90 text-[0.85em]">
+                    {formatTime(myDetails.time)}
+                  </span>
                 </div>
               </div>
             )}
