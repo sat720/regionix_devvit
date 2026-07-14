@@ -1,0 +1,208 @@
+export type ThemeId = 'cyberpunk' | 'nordic' | 'midnight' | 'retro';
+
+export type ThemeColors = {
+  id: ThemeId;
+  name: string;
+  isDark: boolean;
+  bg: string;
+  cardBg: string;
+  border: string;
+  text: string;
+  textSecondary: string;
+  gridBg: string;
+  gridLine: string;
+  btnPrimary: string;
+  btnSecondary: string;
+  accent: string;
+  regionColors: string[]; // Background styles for the cells in a region
+  regionBorderColors: string[]; // Border styles for the active regions
+  regionTextColors: string[]; // Text styles for constraints in the region
+  regionBorderStyle: string; // 'border-solid' or 'border-dashed'
+};
+
+export const THEMES: Record<ThemeId, ThemeColors> = {
+  cyberpunk: {
+    id: 'cyberpunk',
+    name: 'Neon Cyberpunk',
+    isDark: true,
+    bg: 'bg-slate-950 text-slate-100 min-h-screen font-sans transition-colors duration-300',
+    cardBg: 'bg-slate-900/80 border border-cyan-500/30 backdrop-blur-md rounded-2xl shadow-[0_0_15px_rgba(6,182,212,0.15)]',
+    border: 'border-cyan-500/30',
+    text: 'text-cyan-400 font-semibold drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]',
+    textSecondary: 'text-slate-400',
+    gridBg: 'bg-slate-950/50',
+    gridLine: 'border-cyan-950/40',
+    btnPrimary: 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-all shadow-[0_0_10px_rgba(6,182,212,0.4)] hover:shadow-[0_0_15px_rgba(6,182,212,0.6)] rounded-xl px-4 py-2 cursor-pointer',
+    btnSecondary: 'bg-slate-900 border border-pink-500 text-pink-400 hover:bg-pink-500/10 font-bold transition-all rounded-xl px-4 py-2 cursor-pointer',
+    accent: 'text-pink-500 drop-shadow-[0_0_5px_rgba(244,63,94,0.5)]',
+    regionColors: [
+      'bg-teal-500/20 text-teal-300',
+      'bg-pink-500/20 text-pink-300',
+      'bg-purple-500/20 text-purple-300',
+      'bg-yellow-500/20 text-yellow-300',
+      'bg-emerald-500/20 text-emerald-300',
+      'bg-amber-600/20 text-amber-300',
+      'bg-sky-500/20 text-sky-300',
+      'bg-rose-500/20 text-rose-300',
+    ],
+    regionBorderColors: [
+      'border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.5)]',
+      'border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.5)]',
+      'border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]',
+      'border-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]',
+      'border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]',
+      'border-amber-600 shadow-[0_0_8px_rgba(217,119,6,0.5)]',
+      'border-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]',
+      'border-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]',
+    ],
+    regionTextColors: [
+      'text-teal-300',
+      'text-pink-300',
+      'text-purple-300',
+      'text-yellow-300',
+      'text-emerald-300',
+      'text-amber-300',
+      'text-sky-300',
+      'text-rose-300',
+    ],
+    regionBorderStyle: 'border-solid',
+  },
+  nordic: {
+    id: 'nordic',
+    name: 'Nordic Light',
+    isDark: false,
+    bg: 'bg-slate-50 text-slate-800 min-h-screen font-sans transition-colors duration-300',
+    cardBg: 'bg-white border border-slate-200/80 shadow-sm rounded-2xl',
+    border: 'border-slate-250',
+    text: 'text-slate-900 font-extrabold',
+    textSecondary: 'text-slate-400',
+    gridBg: 'bg-white',
+    gridLine: 'border-slate-250 border-dashed',
+    btnPrimary: 'bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all shadow-[0_4px_12px_rgba(79,70,229,0.15)] rounded-xl px-4 py-2 cursor-pointer hover:scale-[1.02]',
+    btnSecondary: 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold transition-all rounded-xl px-4 py-2 cursor-pointer',
+    accent: 'text-indigo-600',
+    regionColors: [
+      'bg-rose-500/10 text-rose-800',
+      'bg-emerald-500/10 text-emerald-800',
+      'bg-amber-500/10 text-amber-800',
+      'bg-teal-500/10 text-teal-800',
+      'bg-indigo-500/10 text-indigo-800',
+      'bg-orange-500/10 text-orange-850',
+      'bg-violet-500/10 text-violet-800',
+      'bg-sky-500/10 text-sky-850',
+    ],
+    regionBorderColors: [
+      'border-rose-500',
+      'border-emerald-500',
+      'border-amber-500',
+      'border-teal-500',
+      'border-indigo-500',
+      'border-orange-500',
+      'border-violet-500',
+      'border-sky-500',
+    ],
+    regionTextColors: [
+      'text-rose-700 font-bold',
+      'text-emerald-700 font-bold',
+      'text-amber-700 font-bold',
+      'text-teal-700 font-bold',
+      'text-indigo-700 font-bold',
+      'text-orange-700 font-bold',
+      'text-violet-700 font-bold',
+      'text-sky-700 font-bold',
+    ],
+    regionBorderStyle: 'border-dashed',
+  },
+  midnight: {
+    id: 'midnight',
+    name: 'Midnight Slate',
+    isDark: true,
+    bg: 'bg-black text-zinc-100 min-h-screen font-sans transition-colors duration-300',
+    cardBg: 'bg-zinc-950 border border-zinc-800 rounded-2xl shadow-xl',
+    border: 'border-zinc-800',
+    text: 'text-white font-bold tracking-wide',
+    textSecondary: 'text-zinc-500',
+    gridBg: 'bg-zinc-950/20',
+    gridLine: 'border-zinc-900',
+    btnPrimary: 'bg-white hover:bg-zinc-200 text-black font-bold transition-all rounded-xl px-4 py-2 cursor-pointer',
+    btnSecondary: 'bg-black border border-zinc-850 text-zinc-300 hover:bg-zinc-900 transition-all rounded-xl px-4 py-2 cursor-pointer',
+    accent: 'text-zinc-400',
+    regionColors: [
+      'bg-zinc-900/60 text-zinc-100',
+      'bg-red-950/40 text-red-300',
+      'bg-blue-950/40 text-blue-300',
+      'bg-green-950/40 text-green-300',
+      'bg-yellow-950/40 text-yellow-300',
+      'bg-purple-950/40 text-purple-300',
+      'bg-orange-950/40 text-orange-300',
+      'bg-cyan-950/40 text-cyan-300',
+    ],
+    regionBorderColors: [
+      'border-zinc-400',
+      'border-red-500',
+      'border-blue-500',
+      'border-green-500',
+      'border-yellow-500',
+      'border-purple-500',
+      'border-orange-500',
+      'border-cyan-500',
+    ],
+    regionTextColors: [
+      'text-zinc-300',
+      'text-red-400',
+      'text-blue-400',
+      'text-green-400',
+      'text-yellow-400',
+      'text-purple-400',
+      'text-orange-400',
+      'text-cyan-400',
+    ],
+    regionBorderStyle: 'border-solid',
+  },
+  retro: {
+    id: 'retro',
+    name: 'Retro Arcade',
+    isDark: true,
+    bg: 'bg-indigo-950 text-green-400 min-h-screen font-mono transition-colors duration-300',
+    cardBg: 'bg-indigo-900 border-4 border-yellow-400 rounded-none shadow-[4px_4px_0px_#000]',
+    border: 'border-yellow-400 border-2',
+    text: 'text-yellow-300 font-black tracking-widest uppercase',
+    textSecondary: 'text-indigo-300',
+    gridBg: 'bg-indigo-950/40',
+    gridLine: 'border-indigo-900 border-2',
+    btnPrimary: 'bg-yellow-400 text-black font-black hover:bg-yellow-300 transition-all border-b-4 border-yellow-750 px-4 py-2 cursor-pointer shadow-[2px_2px_0px_#000]',
+    btnSecondary: 'bg-red-500 text-white font-black hover:bg-red-450 transition-all border-b-4 border-red-750 px-4 py-2 cursor-pointer shadow-[2px_2px_0px_#000]',
+    accent: 'text-red-500',
+    regionColors: [
+      'bg-red-500/30 text-red-200',
+      'bg-blue-500/30 text-blue-200',
+      'bg-green-500/30 text-green-200',
+      'bg-yellow-500/30 text-yellow-200',
+      'bg-purple-500/30 text-purple-200',
+      'bg-pink-500/30 text-pink-200',
+      'bg-orange-500/30 text-orange-200',
+      'bg-cyan-500/30 text-cyan-200',
+    ],
+    regionBorderColors: [
+      'border-red-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-blue-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-green-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-yellow-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-purple-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-pink-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-orange-500 border-2 shadow-[2px_2px_0px_#000]',
+      'border-cyan-500 border-2 shadow-[2px_2px_0px_#000]',
+    ],
+    regionTextColors: [
+      'text-red-300 font-bold',
+      'text-blue-300 font-bold',
+      'text-green-300 font-bold',
+      'text-yellow-300 font-bold',
+      'text-purple-300 font-bold',
+      'text-pink-300 font-bold',
+      'text-orange-300 font-bold',
+      'text-cyan-300 font-bold',
+    ],
+    regionBorderStyle: 'border-solid',
+  },
+};
