@@ -239,9 +239,14 @@ api.get('/daily/leaderboard', async (c) => {
   try {
     const username = (await reddit.getCurrentUsername()) || 'anonymous';
 
-    // Get top 10 users by score (descending)
-    // start: 0, stop: 9, options: { by: 'rank', reverse: true }
-    const topMembers = await redis.zRange(leaderboardKey, 0, 9, { by: 'rank', reverse: true });
+    // Fetch all members in the sorted set
+    const allMembers = await redis.zRange(leaderboardKey, 0, -1);
+
+    // Sort descending by score
+    const sortedMembers = [...allMembers].sort((a, b) => b.score - a.score);
+
+    // Get top 10
+    const topMembers = sortedMembers.slice(0, 10);
 
     const entries: LeaderboardEntry[] = [];
     
@@ -269,11 +274,10 @@ api.get('/daily/leaderboard', async (c) => {
     }
 
     // Retrieve user's own global rank
-    const myRankAsc = await redis.zRank(leaderboardKey, username);
-    const totalMembers = await redis.zCard(leaderboardKey);
+    const myIndex = sortedMembers.findIndex(m => m.member === username);
     let myRank: number | null = null;
-    if (myRankAsc !== undefined && myRankAsc !== null) {
-      myRank = totalMembers - myRankAsc;
+    if (myIndex !== -1) {
+      myRank = myIndex + 1; // 1-indexed descending rank
     }
 
     const myDetailsRaw = await redis.hGet(leaderboardDetailsKey, username);
